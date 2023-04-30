@@ -14,8 +14,9 @@ async def execute_bash():
     if not command:
         return quart.Response(response='Command not provided', status=400)
     try:
-        result = subprocess.check_output(command, shell=True, text=True)
-        return quart.Response(response=result, status=200)
+        result = subprocess.run(command, shell=True, text=True, capture_output=True, check=True)
+        output = result.stdout + result.stderr
+        return quart.Response(response=output, status=200)
     except subprocess.CalledProcessError as e:
         return quart.Response(response=e.output, status=400)
 
