@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Bash Terminal Plugin
+  description: A plugin that allows the user to interact with the bash terminal using ChatGPT.
+  version: 'v1'
+servers:
+  - url: http://localhost:5003
+paths:
+  /bash:
+    post:
+      operationId: executeBash
+      summary: Execute a bash command
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/executeBashRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+
+components:
+  schemas:
+    executeBashRequest:
+      type: object
+      required:
+      - command
+      properties:
+        command:
+          type: string
+          description: The bash command to execute.
+          required: true
